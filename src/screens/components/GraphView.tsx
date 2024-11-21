@@ -18,7 +18,6 @@ const GraphView = ({
   const [disableMarker, setDisableMarker] = useState<number[]>([])
 useEffect(() => {
   const indexArray = Array.from({ length: population.length }, (_, index) => index);
-  console.log(selectedIndex, indexArray)
 
   const updatedArray = indexArray.filter(index => index !== selectedIndex);
   setDisableMarker(updatedArray)
@@ -61,25 +60,10 @@ useEffect(() => {
         withHorizontalLabels={false}
         hidePointsAtIndex={disableMarker}
         
-        // renderDotContent={({ x, y }) => (
-        //   <View
-          
-        //   style={{
-        //     position: 'absolute',
-        //     // left: screenWidth -x,  // Adjust for half the image width
-        //     // top: screenHeight - y,   // Adjust for half the image height
-        //   }}
-        // >
-        //     <Image
-        //       source={require('../../assets/images/close.png')} // Path to your custom image
-        //       style={{ width: 30, height: 30 }}
-        //     />
-        //     </View>
-        // )}
+      
         style={{
           margin:0,
           padding: 0,
-          backgroundColor:'red'
         }}
       />}
      
