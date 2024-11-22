@@ -172,7 +172,7 @@ const growthRates = calculateGrowthRates(data);
 const styles = StyleSheet.create({
   flatList:{
     width:'90%', alignSelf:'center', flexDirection:'row', 
-    marginTop: -30
+    marginBottom:10
   },
   years: {
     color: "#838383",

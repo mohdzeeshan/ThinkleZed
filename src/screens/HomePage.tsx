@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 
 } from 'react-native';
 import GraphView from './components/GraphView';
@@ -63,7 +64,7 @@ const PopulationData: React.FC = () => {
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <HeaderComponent />
       <View style={{position: 'absolute', top: 100, left: 20}}>
         <Text style={styles.title}>US Population Insignts</Text>
@@ -146,13 +147,13 @@ const PopulationData: React.FC = () => {
         />
 
       </View>
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
     flatList:{
       width:'90%', alignSelf:'center', flexDirection:'row', 
-      marginTop: -30
+      // marginTop: -30
     },
     yearbtn: {
       margin: 5,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'flex-start',
     padding: 16,
     backgroundColor: 'black',
@@ -211,6 +212,7 @@ const styles = StyleSheet.create({
     fontFamily: 'AvenirLTStd-Heavy'
   },
   largeText: {
+    marginTop:8,
     fontSize: 48,
     color: 'white',
     fontFamily: 'AvenirLTStd-Book'

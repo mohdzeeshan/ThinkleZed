@@ -1,87 +1,115 @@
-import React, {useEffect, useState, Dispatch, SetStateAction} from 'react';
 
-import {View, Text, TouchableOpacity, StyleSheet, FlatList, Image} from 'react-native';
-import {LineChart} from 'react-native-chart-kit';
-import {Dimensions} from 'react-native';
+import React from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { LineChart } from "react-native-svg-charts";
+import { Defs, LinearGradient, Stop, Path, Circle } from "react-native-svg";
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+// Gradient definition for the area below the line
+const Gradient = () => (
+  <Defs>
+    <LinearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+      <Stop offset="0%" stopColor="#00FF00" stopOpacity="0.8" />
+      <Stop offset="100%" stopColor="#000000" stopOpacity="0.2" />
+    </LinearGradient>
+  </Defs>
+);
 
-const GraphView = ({
+// Custom area renderer for the gradient fill below the line
+const CustomArea = ({ line }) => (
+  <Path
+    d={`${line} L${Dimensions.get("window").width},400 L0,400 Z`}
+    fill="url(#gradient)"
+    stroke="none"
+  />
+);
+
+// Custom markers to display only at the selected index
+const CustomMarkers = ({ x, y, data, selectedIndex }) => {
+  const value = data[selectedIndex];
+
+  if (value !== undefined) {
+    return (
+      <>
+      {/* Gradient Definition */}
+      <Defs>
+        <LinearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <Stop offset="0%" stopColor="rgba(20, 61, 22, 1)" stopOpacity="1" />
+          <Stop offset="50%" stopColor="#080D08" stopOpacity="0.4" />
+        </LinearGradient>
+      </Defs>
+
+      {/* Outer Circle with Gradient */}
+      <Circle
+        cx={x(selectedIndex)} 
+        cy={y(value)}         
+        r={25}                
+        stroke="url(#grad1)"
+        fill="url(#grad1)"    
+      />
+      <Circle
+        cx={x(selectedIndex)} 
+        cy={y(value)}         
+        r={16}                
+        stroke="rgba(8, 13, 8, 0.1)"
+        fill="rgba(8, 13, 8, 0.1)"    
+      />
+
+      {/* Inner Solid Circle */}
+      <Circle
+        cx={x(selectedIndex)}
+        cy={y(value)}
+        r={8}     
+        stroke="#03AD00"
+        fill="rgba(3, 173, 0, 1)"
+      />
+    </>
+    );
+  }
+  return null;
+};
+
+const GradientLineChart = ({
   population,
   selectedIndex,
 }: {
   population: number[];
   selectedIndex: number;
-
 }) => {
-  const [disableMarker, setDisableMarker] = useState<number[]>([])
-useEffect(() => {
-  const indexArray = Array.from({ length: population.length }, (_, index) => index);
-
-  const updatedArray = indexArray.filter(index => index !== selectedIndex);
-  setDisableMarker(updatedArray)
-}, [selectedIndex])
-
+  const data = population; // Population data
 
   return (
-    <View>
-      {population.length> 1 && <LineChart
-        data={{
-          labels: [],
-          datasets: [
-            {
-              data: population,
-            },
-          ],
+    <View style={styles.container}>
+      <LineChart
+        style={{ height: 400, width: Dimensions.get("window").width }}
+        data={data}
+        svg={{
+          stroke: "#00FF00", // Line color
+          strokeWidth: 2,
         }}
-        fromNumber={300000000}
-        width={screenWidth}
-        height={500}
-        yAxisLabel={undefined}
-        yAxisSuffix={undefined} // No suffix
-
-        yAxisInterval={1}
-        chartConfig={{
-          backgroundGradientFromOpacity: 0,
-          backgroundGradientToOpacity: 0,
-          strokeWidth: 3,
-          barPercentage: 0.5,
-          useShadowColorFromDataset: false,
-          color: (opacity = 1) => `rgba(58, 157, 63, 1)`, // Green color for line
-          // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          fillShadowGradientFrom: '#143D16',
-          fillShadowGradientTo: '#080D0899',
-          propsForBackgroundLines: {
-            strokeDasharray: '',
-            strokeOpacity: 0.0,
-          },
-        }}
-        withHorizontalLabels={false}
-        hidePointsAtIndex={disableMarker}
-        
-      
-        style={{
-          margin:0,
-          padding: 0,
-        }}
-      />}
-     
+        contentInset={{ top: 20, bottom: 20 }}
+        yMax={Math.max(...data)} 
+      >
+        <Gradient />
+        <CustomArea />
+        <CustomMarkers
+          x={(index) => index * 20}  // Adjust the x-axis position calculation if needed
+          y={(value) => value / 1000000} // Scale y values if necessary
+          data={data}
+          selectedIndex={selectedIndex}
+        />
+      </LineChart>
     </View>
   );
 };
 
-export default GraphView;
 const styles = StyleSheet.create({
-  flatList:{width:'68%', alignSelf:'center'},
-  yearbtn: {
-    margin: 5,
-    borderWidth: 1,
-    borderColor: '#5C5C5C',
-    backgroundColor: '#070809',
-    padding: 4,
-    borderRadius: 20,
-    paddingHorizontal:8
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: 450,
   },
 });
+
+export default GradientLineChart;
 
