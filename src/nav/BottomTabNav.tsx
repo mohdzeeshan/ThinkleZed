@@ -20,7 +20,7 @@ function MyTabBar({ state, descriptors, navigation }) {
   const { buildHref } = useLinkBuilder();
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: '#000', justifyContent: 'space-evenly', height: 60, borderTopWidth: 0.5, borderTopColor: 'rgba(81, 81, 81, 1)',  alignSelf:'center' , width:'100%'}}>
+    <View style={{ flexDirection: 'row', backgroundColor: '#000', justifyContent: 'space-evenly', height: 65, borderTopWidth: 0.5, borderTopColor: 'rgba(81, 81, 81, 1)',  alignSelf:'center' , width:'100%'}}>
       <View style={{width:'70%', flexDirection:'row'}}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -65,15 +65,23 @@ function MyTabBar({ state, descriptors, navigation }) {
           <PlatformPressable
             key={route.key}
             href={buildHref(route.name, route.params)}
-            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ alignItems: 'center', justifyContent: 'center', flex: 1}}
-          >
-            <Image source={iconSource} style={{ width: 24, height: 24, marginBottom: 5 }} />
-            <Text style={{ color: isFocused ? 'white' : 'gray', fontSize: 12, fontWeight: 'bold' }}>
+            style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+            <Image
+              source={iconSource}
+              style={{width: 24, height: 24, marginBottom: 5}}
+            />
+            <Text
+              style={{
+                color: isFocused ? 'white' : 'gray',
+                fontSize: 12,
+                fontWeight: 'bold',
+                fontFamily: 'AvenirLTStd-Book',
+              }}>
               {label}
             </Text>
           </PlatformPressable>
