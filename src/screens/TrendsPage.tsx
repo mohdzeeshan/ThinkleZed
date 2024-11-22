@@ -140,17 +140,18 @@ const growthRates = calculateGrowthRates(data);
             borderRadius: 16,
             backgroundColor: '#171717',
             padding: 16,
-            height: 180,
             justifyContent: 'space-between',
             alignItems: 'flex-start',
             width: '96%',
+            maxHeight:270,
+            marginBottom: 5
           },
         ]}>
         <View>
-          <Text style={styles.cardTitle}>Recent Growth rate</Text>
+          <Text style={[styles.cardTitle,{marginBottom:6}]}>Recent Growth rate</Text>
           <FlatList
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{height: 200, flexGrow:1}}
+            contentContainerStyle={{ flexGrow:1}}
             data={growthRates}
             keyExtractor={item => item.years}
             renderItem={({item}) => (
@@ -223,7 +224,7 @@ cardView: {
   backgroundColor: '#171717',
   padding: 16,
 },
-row: {flexDirection: 'row', justifyContent:'space-between', alignItems: 'flex-start'},
+row: {flexDirection: 'row', justifyContent:'space-between', alignItems: 'flex-start', marginBottom:5},
 headerRow: {
   flexDirection: 'row',
   padding: 12,
@@ -234,8 +235,7 @@ container: {
   flexGrow: 1,
   justifyContent: 'flex-start',
   padding: 16,
-  // backgroundColor: 'black',
-  backgroundColor: 'white',
+  backgroundColor: 'black',
 },
 title: {
   fontSize: 32,
