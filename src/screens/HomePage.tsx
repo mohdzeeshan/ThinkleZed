@@ -80,6 +80,8 @@ const PopulationData: React.FC = () => {
       />}
       <FlatList
         showsHorizontalScrollIndicator={false}
+        viewabilityConfig={{  itemVisiblePercentThreshold: 40,}} // 100% of the item must be visible
+
         onViewableItemsChanged={({ viewableItems }) => {
           // if (viewableItems && viewableItems.length > 0) {
             const visibleItems = viewableItems.map(item => item.item);

@@ -5,9 +5,10 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  LogBox,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -39,14 +40,15 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     flex:1,
   };
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, [])
+  
 
   return (
     <NavigationContainer>
         <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={ 'light-content' }
-        backgroundColor={'black'}
-      />
+      
       <MyTabs />
     </SafeAreaView>
 
